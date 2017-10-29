@@ -1,28 +1,10 @@
 <template>
-  <div class="container">
-    <section class="card-container">
+  <section class="container">
+
+    <section class="card-wrapper">
       <div class="row mt-2 mb-2">
-        <div class="col-lg-6">
-          <div class="input-group">
-            <input type="text" class="form-control search-box" placeholder="Search by name or platform..." aria-label="Search by name or platform or genre..." @input.prevent="handleSearch">
-            <span class="input-group-btn">
-              <button class="btn btn-danger" type="button" @click.prevent="handleReset">Reset</button>
-            </span>
-          </div>
-        </div>
-        <div class="col-lg-6">
-          <ul class="nav justify-content-end sort">
-            <li class="nav-item">
-              <a class="nav-link disabled" href="#">Sort By</a>
-            </li>
-            <li class="nav-item" @click.prevent="sortGames(-1, $event)">
-              <a class="nav-link" href="#">Score - Low to High</a>
-            </li>
-            <li class="nav-item" @click.prevent="sortGames(1, $event)">
-              <a class="nav-link" href="#">Score - High to Low</a>
-            </li>
-          </ul>
-        </div>
+        <Search @handleSearch="handleSearch" @handleReset="handleReset"></Search>
+        <Sort @sortGames="sortGames"></Sort>
       </div>
       <hr>
       <div v-if="filter" class="col-4 alert alert-warning" role="alert">
@@ -38,7 +20,7 @@
       </div>
     </section>
     
-  </div>
+  </section>
 </template>
 
 <script>
@@ -46,7 +28,8 @@ import _ from 'lodash';
 import $ from 'jquery';
 import { win, doc } from '../utils';
 import GameCard from './GameCard';
-
+import Search from './Search';
+import Sort from './Sort';
 
 export default {
   data() {
@@ -62,6 +45,8 @@ export default {
   },
   components: {
     GameCard,
+    Search,
+    Sort,
   },
   mounted() {
     this.throttledScroll = _.throttle(this.onScroll, 200, {
@@ -194,6 +179,14 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-
+<style>
+  .card-wrapper {
+    margin-top: 99px;
+    min-height: 820px;
+    height: 100%;
+    transition: all 1s;
+  }
+  .active {
+    border-bottom: 3px solid #007bff;
+  }
 </style>
