@@ -1,5 +1,5 @@
 <template>
-  <div v-if="game" class="card text-left border-primary">
+  <div v-if="game" class="card card-item text-left border-primary">
     <div class="card-header alert alert-primary">
       <h5> {{ game.title }} </h5>
     </div>
@@ -57,5 +57,16 @@
   }
   .badge {
     font-size: 100%;
+  }
+  .card-item {
+    transition: all 1s;
+  }
+  .card-item-enter, .card-item-leave-to
+  /* .list-complete-leave-active below version 2.1.8 */ {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  .card-item-leave-active {
+    position: absolute;
   }
 </style>

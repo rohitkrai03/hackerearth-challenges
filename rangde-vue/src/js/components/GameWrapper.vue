@@ -13,11 +13,11 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="card-columns mt-3">
-        <template v-for="game in games">
-          <GameCard :game="game" @filter="filterGames"></GameCard>
+      <transition-group name="card-item" tag="div" class="card-columns mt-3">
+        <template v-for="game, index in games">
+          <GameCard :key="index" :game="game" @filter="filterGames"></GameCard>
         </template>
-      </div>
+      </transition-group>
     </section>
     
   </section>
