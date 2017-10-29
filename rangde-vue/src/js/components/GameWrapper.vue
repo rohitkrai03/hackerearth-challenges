@@ -1,13 +1,10 @@
 <template>
-  <div>
-    <aside class="col-2 dock position-fixed">
-          
-    </aside>
-    <section class="col-10 card-container">
+  <div class="container">
+    <section class="card-container">
       <div class="row mt-2 mb-2">
         <div class="col-lg-6">
           <div class="input-group">
-            <input type="text" class="form-control search-box" placeholder="Search by name or platform..." aria-label="Search by name or platform..." @input.prevent="handleSearch">
+            <input type="text" class="form-control search-box" placeholder="Search by name or platform..." aria-label="Search by name or platform or genre..." @input.prevent="handleSearch">
             <span class="input-group-btn">
               <button class="btn btn-danger" type="button" @click.prevent="handleReset">Reset</button>
             </span>
@@ -28,9 +25,15 @@
         </div>
       </div>
       <hr>
+      <div v-if="filter" class="col-4 alert alert-warning" role="alert">
+        {{ filter }}
+        <button type="button" class="close" aria-label="Close" @click.prevent="handleReset">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
       <div class="card-columns mt-3">
         <template v-for="game in games">
-          <GameCard :game="game"></GameCard>
+          <GameCard :game="game" @filter="filterGames"></GameCard>
         </template>
       </div>
     </section>
@@ -50,13 +53,11 @@ export default {
     return {
       games: [],
       loadedGames: [],
-      gameNames: [],
-      gamePlatforms: [],
       url: 'http://starlord.hackerearth.com/gamesarena',
       loader: false,
       divider: 1.5,
       currentPointer: 0,
-      maxApiLimit: 0,
+      filter: '',
     };
   },
   components: {
@@ -117,11 +118,6 @@ export default {
           this.maxApiLimit = data.shift();
           Array.prototype.push.apply(this.loadedGames, data);
 
-          this.gameNames = this.loadedGames.map(game => game.title);
-
-          const platforms = new Set(this.loadedGames.map(game => game.platform));
-          this.gamePlatforms = [...platforms];
-
           if (this.divider < 100) {
             this.divider *= 1.5;
           }
@@ -166,21 +162,32 @@ export default {
     findMatches(wordToMatch, games) {
       return games.filter((game) => {
         const regex = new RegExp(wordToMatch, 'gi');
-        return game.title.match(regex) || game.platform.match(regex);
+        return game.title.match(regex) || game.platform.match(regex) || game.genre.match(regex);
       });
     },
     handleSearch(e) {
       const matches = this.findMatches(e.target.value, this.loadedGames);
-      console.log(matches);
       this.games = matches;
       this.removeScrollListener();
     },
     handleReset() {
       $('.search-box').val('');
+      this.filter = '';
       this.attachScrollListener();
       this.games = [];
       this.currentPointer = 0;
       this.renderData();
+    },
+    filterGames(filterBy, filterType) {
+      this.filter = `Filtered by ${filterType} - ${filterBy}`;
+      let matches;
+      if (filterType === 'Editor\'s Choice') {
+        matches = this.loadedGames.filter(game => game.editors_choice === 'Y');
+      } else {
+        matches = this.findMatches(filterBy, this.loadedGames);
+      }
+      this.games = matches;
+      this.removeScrollListener();
     },
   },
 };

@@ -1,7 +1,7 @@
 <template>
   <div id="app" class="container-fluid">
       <header class="border-bottom-0">
-        <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
+        <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
           <a class="navbar-brand" href="#">
             <img src="https://rangde-gen.s3.ap-south-1.amazonaws.com/images/rangde-new/header/rangde-logo.svg" alt="rangde logo" width="56px" height="43px" class="d-inline-block align-top">
           </a>
@@ -38,7 +38,6 @@ export default {
   height: 100%;
 }
 .card-container {
-  margin-left: 16.5%;
   transition: all 1s;
 }
 .dock {
