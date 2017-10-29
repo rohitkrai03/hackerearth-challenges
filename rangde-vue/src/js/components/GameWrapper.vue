@@ -19,6 +19,13 @@
         </template>
       </transition-group>
     </section>
+    <footer>
+      <div class="alert alert-secondary text-center" role="alert">
+        <a class="badge badge-info" href="https://github/rohitkrai03">Github</a>
+        <a class="badge badge-success" href="https://github/rohitkrai03/vue-starter">vue-starter</a>
+        <a class="badge badge-warning" href="https://github/rohitkrai03/pills">pills</a>
+      </div>
+    </footer>
     
   </section>
 </template>
