@@ -7,7 +7,7 @@
         <Sort @sortGames="sortGames"></Sort>
       </div>
       <hr>
-      <div v-if="filter" class="col-4 alert alert-warning" role="alert">
+      <div v-if="filter" class="col-12 alert alert-warning" role="alert">
         {{ filter }}
         <button type="button" class="close" aria-label="Close" @click.prevent="handleReset">
           <span aria-hidden="true">&times;</span>
